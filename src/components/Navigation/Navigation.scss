@@ -1,0 +1,38 @@
+@import '../../common/scss/variables.scss';
+@import 'include-media/dist/_include-media.scss';
+
+nav.primary
+{
+	$navigation-height: 42px;
+
+	font-family: $font-family-alternate;
+	height: $navigation-height;
+	padding: $padding-default;
+	position: relative;
+	z-index: $z-index-navigation;
+
+	div.background
+	{
+		background: $color-background-default;
+		height: $navigation-height;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		z-index: -1;
+	}
+
+	div.logo
+	{
+		margin-right: 50px;
+		float: left;
+
+		@include media("<=tablet")
+		{
+			margin-right: $margin-default;
+		}
+
+		color: $color-font-default;
+		font-size: 18px;
+	}
+}
