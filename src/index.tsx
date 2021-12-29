@@ -13,11 +13,11 @@ async function main()
 	const html =
 	(
 		<>
-		{/* <React.StrictMode> */}
-			<App />
-			<ToastContainer />
-			<ModalContainer />
-		{/* </React.StrictMode> */}
+			<React.StrictMode>
+				<App />
+				<ToastContainer />
+				<ModalContainer />
+			</React.StrictMode>
 		</>
 	);
 	ReactDOM.render(html, document.getElementById('root'));
