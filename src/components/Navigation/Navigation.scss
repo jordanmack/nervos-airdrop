@@ -24,15 +24,8 @@ nav.primary
 
 	div.logo
 	{
-		margin-right: 50px;
-		float: left;
-
-		@include media("<=tablet")
-		{
-			margin-right: $margin-default;
-		}
-
 		color: $color-font-default;
 		font-size: 18px;
+		text-align: center;
 	}
 }
