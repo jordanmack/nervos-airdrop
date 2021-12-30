@@ -6,6 +6,9 @@ function Component()
 	const html =
 	(
 		<>
+			<footer>
+				Copyright &copy; {new Date().getFullYear()} Nervos Foundation. All rights reserved.
+			</footer>
 		</>
 	);
 
