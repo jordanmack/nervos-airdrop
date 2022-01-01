@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {RPC} from 'ckb-js-toolkit';
-import {Mutex, tryAcquire} from 'async-mutex';
+import {tryAcquire, E_ALREADY_LOCKED} from 'async-mutex';
 import {AddressPrefix, privateKeyToAddress} from '@nervosnetwork/ckb-sdk-utils';
 import {chunk as _chunk} from 'lodash';
 import PWCore, {Address, AddressType, Amount, AmountUnit, ChainID, Transaction, RawProvider} from '@lay2/pw-core';
@@ -202,8 +202,6 @@ function Component()
 	const handleStartClickWrapper = (e: React.MouseEvent<HTMLButtonElement>) => { handleStartClick(setState); };
 	const handleStopClickWrapper = (e: React.MouseEvent<HTMLButtonElement>) => { handleStopClick(setState, setTick); };
 
-	const MUTEX = new Mutex();
-
 	/* eslint-disable react-hooks/exhaustive-deps */
 	// This effect is for debugging purposes only.
 	useEffect(()=>
@@ -217,7 +215,7 @@ function Component()
 	useEffect(()=>{handleUpdateTicker(setTicker, ticker, state, setTick);}, [state]); // Update the ticker based on the state.
 	useEffect(()=> // Handle actions for the current tick. (This login needs to be in scope to get updated vars.)
 	{
-		tryAcquire(MUTEX)
+		tryAcquire(Config.tickMutex)
 		.runExclusive(async ()=>
 		{
 			if(state===State.Active)
@@ -343,6 +341,13 @@ function Component()
 					setState(State.Stopped);
 					setStatus(error);
 				}
+			}
+		})
+		.catch((e)=>
+		{
+			if(e === E_ALREADY_LOCKED)
+			{
+				// console.debug(`Tick received but mutex is already locked.`);
 			}
 		});
 	}, [tick]);

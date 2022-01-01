@@ -1,3 +1,5 @@
+import {Mutex} from 'async-mutex';
+
 const config =
 {
 	testnet:
@@ -21,7 +23,8 @@ const config =
 
 	// defaultDebouceDelay: 200,
 	tickerDelay: 1000,
-	transactionFee: 10000,
+	tickMutex: new Mutex(),
+	transactionFee: 10000
 };
 
 export default config;
