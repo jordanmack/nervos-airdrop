@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {RPC} from 'ckb-js-toolkit';
 import {Mutex, tryAcquire} from 'async-mutex';
 import {AddressPrefix, privateKeyToAddress} from '@nervosnetwork/ckb-sdk-utils';
-import {chunk as _chunk, isObject as _isObject} from 'lodash';
+import {chunk as _chunk} from 'lodash';
 import PWCore, {Address, AddressType, Amount, AmountUnit, ChainID, Transaction, RawProvider} from '@lay2/pw-core';
 import {SegmentedControlWithoutStyles as SegmentedControl} from 'segmented-control';
 import {toast} from 'react-toastify';
@@ -182,7 +182,7 @@ function Component()
 	const [chainType, setChainType] = useState(ChainType.testnet);
 	const [ckbAddress, setCkbAddress] = useState('');
 	const [ckbAddressBalance, setCkbAddressBalance] = useState('');
-	const [loading, _setLoading] = useState(false);
+	const [loading] = useState(false);
 	const [privateKey, setPrivateKey] = useState<string|null>(null);
 	const [state, setState] = useState(State.Stopped);
 	const [status, setStatus] = useState('Stopped');

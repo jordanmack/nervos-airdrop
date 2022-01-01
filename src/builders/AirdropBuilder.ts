@@ -1,4 +1,4 @@
-import PWCore, {Address, Amount, AmountUnit, Builder, Cell, ChainID, RawTransaction, Transaction} from "@lay2/pw-core";
+import PWCore, {Address, Amount, AmountUnit, Builder, Cell, RawTransaction, Transaction} from "@lay2/pw-core";
 import BasicCollector from "../collectors/BasicCollector";
 
 export default class AirdropBuilder extends Builder
