@@ -157,6 +157,7 @@ async function validateRecipients(recipients: string[], recipientAddressType: Ad
 		}
 		catch(e)
 		{
+			console.error(e);
 			valid = false;
 		}
 
