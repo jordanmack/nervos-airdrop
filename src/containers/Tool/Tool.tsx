@@ -354,6 +354,16 @@ function Component()
 			{
 				// console.debug(`Tick received but mutex is already locked.`);
 			}
+			else
+			{
+				console.error(e);
+				const error = `An error occurred during processing.`;
+				console.error(error);
+				toast.error(error);
+				setState(State.Stopped);
+				setStatus(error);
+
+			}
 		});
 	}, [tick]);
 	/* eslint-enable react-hooks/exhaustive-deps */
