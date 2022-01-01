@@ -8,6 +8,7 @@ import {SegmentedControlWithoutStyles as SegmentedControl} from 'segmented-contr
 import {toast} from 'react-toastify';
 
 import Config from '../../config.js';
+import {sleep} from '../../common/ts/Utils';
 import AirdropBuilder from '../../builders/AirdropBuilder';
 import BasicCollector from '../../collectors/BasicCollector';
 import {ChainType, State} from '../../common/ts/Types';
@@ -103,7 +104,7 @@ function handleUpdateTicker(setTicker: React.Dispatch<any>, ticker: NodeJS.Timer
 	}
 	else if (state === State.Active && ticker === null)
 	{
-		const newTicker = setInterval(()=>{setTick(new Date().getTime())}, Config.tickerDelay);
+		const newTicker = setInterval(()=>{setTick(new Date().getTime())}, Config.tickDelay);
 		setTicker(newTicker);
 	}
 }
@@ -343,6 +344,8 @@ function Component()
 					setStatus(error);
 				}
 			}
+		
+			await sleep(Config.tickPostDelay);
 		})
 		.catch((e)=>
 		{

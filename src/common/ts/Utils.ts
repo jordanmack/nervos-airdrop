@@ -89,11 +89,15 @@ function hexToArrayBuffer(hexString: string)
 	return new Reader(hexString).toArrayBuffer();
 }
 
-const exportObj =
+function sleep(miliseconds: number)
 {
+	return new Promise(resolve => setTimeout(resolve, miliseconds)); 
+}
+
+export {
 	addCopyButtonTooltips,
 	arrayBufferToHex,
 	decodeError,
 	hexToArrayBuffer,
+	sleep,
 };
-export default exportObj;
