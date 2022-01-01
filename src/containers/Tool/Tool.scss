@@ -3,5 +3,62 @@
 
 main.tool
 {
-	text-align: center;
+	form
+	{
+		fieldset
+		{
+			margin: 0 0 $margin-thick 0;
+			// border-color: #555555;
+
+			&:last-child
+			{
+				margin-bottom: 0;
+			}
+		}
+
+		input[type=text]
+		{
+			display: block;
+
+			&:invalid
+			{
+				background: #ffcccc;
+			}
+		}
+
+		textarea
+		{
+			display: block;
+			height: 150px;
+			width: 100%;
+		}
+	}
+	.action-buttons
+	{
+		padding-top: $padding-default*2;
+
+		button
+		{
+			display: block;
+			height: 37px;
+		}
+	}
+	.grid-2
+	{
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: 1fr;
+		grid-column-gap: 10px;
+		grid-row-gap: 0px;
+	}
+	.segmented-control
+	{
+		margin: 0;
+		transition-duration: 0.2s;
+
+		label
+		{
+			color: $color-nervos-green;
+		}
+	}
 }

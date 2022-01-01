@@ -1,4 +1,4 @@
-enum ChainTypes
+enum ChainType
 {
 	mainnet,
 	testnet,
@@ -6,5 +6,15 @@ enum ChainTypes
 
 type ChainTypeString = 'mainnet'|'testnet';
 
-export {ChainTypes};
+enum State
+{
+	Active,
+	BuildTx,
+	ConfirmTx,
+	SendTx,
+	Stopped,
+	Validate
+}
+
+export {ChainType, State};
 export type {ChainTypeString};

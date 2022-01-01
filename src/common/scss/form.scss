@@ -23,7 +23,7 @@ button
 	&:disabled,
 	&.loading
 	{
-		background: $color-button-disabled;
+		background: $color-disabled;
 		color: $color-font-disabled;
 	}
 }

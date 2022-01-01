@@ -20,6 +20,8 @@ const config =
 	// sudtTransactionMonitorUpdateDelay: 10_000,		// Delay in milliseconds before a transaction is rechecked for a status change.
 
 	// defaultDebouceDelay: 200,
+	tickerDelay: 1000,
+	transactionFee: 10000,
 };
 
 export default config;
