@@ -272,11 +272,14 @@ function Component()
 				{
 					const txId = await pwCore.sendTransaction(transaction!);
 					console.log(`Transaction submitted: ${txId}`);
+
 					setTransactions(transactions.concat([txId]));
 					setTxId(txId);
 
 					const destinationAddresses = _chunk(recipients, recipientsPerTx)[currentChunk];
 					setRecipientsPaid(recipientsPaid.concat(destinationAddresses));
+
+					setState(State.ConfirmTx);
 				}
 				catch(e)
 				{
