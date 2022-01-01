@@ -7,7 +7,7 @@ function Component()
 	(
 		<>
 			<footer>
-				Copyright &copy; {new Date().getFullYear()} Nervos Foundation. All rights reserved.
+				Copyright &copy; 2021-{new Date().getFullYear()} Nervos Foundation. All rights reserved.
 			</footer>
 		</>
 	);
