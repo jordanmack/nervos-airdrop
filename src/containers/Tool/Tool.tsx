@@ -174,7 +174,7 @@ async function validateRecipients(recipients: string[], recipientAddressType: Ad
 
 function Component()
 {
-	const [recipients, setRecipients] = useState<string[]>(['ckt1qyqz5ekzfs07qj3ey4cnj368al3hwets5h3q50csfk','ckt1qyqq2txzjj6y32p6j7se3lxfkw7vn4syq0sqd3ny8q','ckt1qyqd956w8ntjs5uh4w98f43dg4unqy9utf0qh5jdle','ckt1qyqyvvanq53y7jgdk02392whncml75jfwq7qenra7h','ckt1qyqz8wt42cg7g9hgwymd9xtvexr9lpwdyaaq452sv0','ckt1qyqf733wnlkdgvme0gqvsqsus4pu5st0aezqg30psk','ckt1qyq8ttvs5cg9x3z8yy9h4xpehvt05cspvk5sffe6xh','ckt1qyqpt4sr98aftqjc8s9kq0z5g3yhmj63mumqtqra67','ckt1qyq2afuhpuy7cgu7ydghzxn85jlsgh5599vs2xs5h6','ckt1qyqt934e0w6ds0saz05hm2dkr8dsjwzfwlvs44yew4']);
+	const [recipients, setRecipients] = useState<string[]>(['ckt1qyqz5ekzfs07qj3ey4cnj368al3hwets5h3q50csfk','  ckt1qyqq2txzjj6y32p6j7se3lxfkw7vn4syq0sqd3ny8q','ckt1qyqd956w8ntjs5uh4w98f43dg4unqy9utf0qh5jdle','ckt1qyqyvvanq53y7jgdk02392whncml75jfwq7qenra7h  ','ckt1qyqz8wt42cg7g9hgwymd9xtvexr9lpwdyaaq452sv0','ckt1qyqf733wnlkdgvme0gqvsqsus4pu5st0aezqg30psk','   ckt1qyq8ttvs5cg9x3z8yy9h4xpehvt05cspvk5sffe6xh','ckt1qyq9zqjp7rase9ul96fj7s3ss6emskvs49aqle0tq4','ckt1qyq2afuhpuy7cgu7ydghzxn85jlsgh5599vs2xs5h6','ckt1qyqt934e0w6ds0saz05hm2dkr8dsjwzfwlvs44yew4','ckt1qyqdsuw4skjzg55ektn4pz82hwjyzf05a7cqg3vk2t','ckt1qyqd9pwv443py2lw4k97r9m76qh40qy2paus7gzh45','ckt1qyqfuggrnx85xsulphrd2gh8favsusg0xz6suas0su','ckt1qyqxkxljs6esl0xxn8jtpwlcq7677yl4vw0qm0xqfe','ckt1qyqylksnjttn83tvl07w453ka2hsatjswh6s5wl9zl','ckt1qyqtep5vetj5qz5sth58jjqqmj7t8hmp0k7qq7sakd','ckt1qyqqcexx8vgaeaqws7ey4gu634xmfcllaxdsvgkcu2','ckt1qyq93tgsz9mucntrz6plfrap7j9mtdmnmfws8ypztn','ckt1qyqyrctspdl54xfsmy2v94kte4dxnkx2j9sqkhf75e','ckt1qyqqutnnc93ucquq2nw69zf5hwrdy7224zfsp2xd60']);
 	const [recipientsPaid, setRecipientsPaid] = useState<string[]>([]);
 	const [recipientAddressType, setRecipientAddressType] = useState(AddressType.ckb);
 	const [recipientAmount, setRecipientAmount] = useState(61);
@@ -206,7 +206,7 @@ function Component()
 	// This effect is for debugging purposes only.
 	useEffect(()=>
 	{
-		const newPrivateKey = '0xece37052405f4ec36103ca0f7c1cddc797a476608f18a0fd0a21e87a8d4b09c7';
+		const newPrivateKey = '0xf3c6158c29d70d724d7a58896c085869affb808d2e36c5b0e9c8c7288dd3a2ae';
 		handleSetPrivateKey(setPrivateKey, newPrivateKey);
 		handleSetCkbAddress(setCkbAddress, chainType, newPrivateKey);
 	}, [true]);
@@ -290,8 +290,6 @@ function Component()
 					setState(State.Stopped);
 					setStatus(error);
 				}
-
-				setState(State.ConfirmTx);
 			}
 			else if(state===State.ConfirmTx)
 			{
@@ -338,7 +336,7 @@ function Component()
 				catch(e)
 				{
 					console.error(e);
-					const error = `An error occurred while sending a transaction.`;
+					const error = `An error occurred while confirming a transaction.`;
 					console.error(error);
 					toast.error(error);
 					setState(State.Stopped);
@@ -370,15 +368,15 @@ function Component()
 						<SegmentedControl name="chain-type" setValue={handleSetChainTypeWrapper} options=
 							{
 								[
-									{label: 'Mainnet', value: ChainType.mainnet},
-									{label: 'Testnet', value: ChainType.testnet, default: true},
+									{label: 'Mainnet', value: ChainType.mainnet, disabled: state!==State.Stopped},
+									{label: 'Testnet', value: ChainType.testnet, default: true, disabled: state!==State.Stopped},
 								]
 							}
 						/>
 					</label>
 					<label>
 						Private Key
-						<input type="text" className="private-key" onChange={handleSetPrivateKeyWrapper} placeholder="Enter a 256-bit (32 byte) private key in hex format." defaultValue="0xece37052405f4ec36103ca0f7c1cddc797a476608f18a0fd0a21e87a8d4b09c7" pattern="^0x[a-fA-F0-9]{64}$" maxLength={66} />
+						<input type="text" className="private-key" onChange={handleSetPrivateKeyWrapper} placeholder="Enter a 256-bit (32 byte) private key in hex format." defaultValue="0xf3c6158c29d70d724d7a58896c085869affb808d2e36c5b0e9c8c7288dd3a2ae" pattern="^0x[a-fA-F0-9]{64}$" maxLength={66} readOnly={state!==State.Stopped} />
 					</label>
 					<div className="grid-2">
 						<label>
@@ -398,8 +396,8 @@ function Component()
 						<SegmentedControl name="address-type" setValue={handleSetAddressTypeWrapper} options=
 							{
 								[
-									{label: 'CKB (L1)', value: AddressType.ckb, default: true},
-									{label: 'ETH (Godwoken L2)', value: AddressType.eth},
+									{label: 'CKB (L1)', value: AddressType.ckb, default: true, disabled: state!==State.Stopped},
+									{label: 'ETH (Godwoken L2)', value: AddressType.eth, disabled: state!==State.Stopped},
 								]
 							}
 						/>
@@ -407,7 +405,7 @@ function Component()
 					<label>
 						Recipient Addresses - One Per Line {`(${recipients.length})`}
 						{/* <textarea className="recipient-addresses" onChange={handleSetRecipientsWrapper} readOnly={state!==State.Stopped}></textarea> */}
-						<textarea className="recipient-addresses" onChange={handleSetRecipientsWrapper} defaultValue={recipients.join('\r\n')} />
+						<textarea className="recipient-addresses" onChange={handleSetRecipientsWrapper} defaultValue={recipients.join('\r\n')} readOnly={state!==State.Stopped} />
 					</label>
 					<div className="grid-2">
 						<label>
@@ -432,11 +430,15 @@ function Component()
 					</label>
 					<label>
 						Paid Addresses {`(${recipientsPaid.length})`}
-						<textarea className="recipient-addresses" readOnly={true} value={recipientsPaid.join('\r\n')} />
+						<div className="paid-addresses">
+							{recipientsPaid.map((a, i)=><a key={i} href={Config[ChainType[chainType] as ChainTypeString].ckbExplorerUrl+'address/'+a} target="_blank" rel="noreferrer">{a}</a>)}
+						</div>
 					</label>
 					<label>
 						Transactions {`(${transactions.length})`}
-						<textarea className="recipient-addresses" readOnly={true} value={transactions.join('\r\n')} />
+						<div className="transactions">
+							{transactions.map((t, i)=><a key={i} href={Config[ChainType[chainType] as ChainTypeString].ckbExplorerUrl+'transaction/'+t} target="_blank" rel="noreferrer">{t}</a>)}
+						</div>
 					</label>
 				</fieldset>
 			</form>

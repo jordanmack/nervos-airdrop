@@ -30,7 +30,33 @@ main.tool
 		{
 			display: block;
 			height: 150px;
+			overflow: scroll;
+			overflow-x: auto;
+			overflow-y: scroll;
 			width: 100%;
+		}
+
+		.paid-addresses,
+		.transactions
+		{
+			background: white;
+			color: black;
+			font-family: monospace;
+			font-size: 13.3333px;
+			height: 150px;
+			line-height: 1.09rem;
+			overflow: scroll;
+			overflow-x: auto;
+			overflow-y: scroll;
+			padding: 2px;
+			resize: vertical;
+
+			a
+			{
+				color: black;
+				display: block;
+				font-weight: normal;
+			}
 		}
 	}
 	.action-buttons
