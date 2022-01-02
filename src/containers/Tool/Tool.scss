@@ -51,11 +51,15 @@ main.tool
 			padding: 2px;
 			resize: vertical;
 
-			a
+			p
 			{
-				color: black;
-				display: block;
-				font-weight: normal;
+				margin: 0;
+	
+				a
+				{
+					color: black;
+					font-weight: normal;
+				}
 			}
 		}
 	}

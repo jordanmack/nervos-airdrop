@@ -445,13 +445,13 @@ function Component()
 					<label>
 						Paid Addresses {`(${recipientsPaid.length})`}
 						<div className="paid-addresses">
-							{recipientsPaid.map((a, i)=><a key={i} href={Config[ChainType[chainType] as ChainTypeString].ckbExplorerUrl+'address/'+a} target="_blank" rel="noreferrer">{a}</a>)}
+							{recipientsPaid.map((a, i)=><p key={i}><a href={Config[ChainType[chainType] as ChainTypeString].ckbExplorerUrl+'address/'+a} target="_blank" rel="noreferrer">{a}</a></p>)}
 						</div>
 					</label>
 					<label>
 						Transactions {`(${transactions.length})`}
 						<div className="transactions">
-							{transactions.map((t, i)=><a key={i} href={Config[ChainType[chainType] as ChainTypeString].ckbExplorerUrl+'transaction/'+t} target="_blank" rel="noreferrer">{t}</a>)}
+							{transactions.map((t, i)=><p key={i}><a href={Config[ChainType[chainType] as ChainTypeString].ckbExplorerUrl+'transaction/'+t} target="_blank" rel="noreferrer">{t}</a></p>)}
 						</div>
 					</label>
 				</fieldset>
