@@ -180,7 +180,7 @@ function Component()
 	const [recipientsPaid, setRecipientsPaid] = useState<string[]>([]);
 	const [recipientAddressType, setRecipientAddressType] = useState(AddressType.ckb);
 	const [recipientAmount, setRecipientAmount] = useState(61);
-	const [recipientsPerTx, setRecipientsPerTx] = useState(2);
+	const [recipientsPerTx, setRecipientsPerTx] = useState(10);
 	const [chainType, setChainType] = useState(ChainType.testnet);
 	const [ckbAddress, setCkbAddress] = useState('');
 	const [ckbAddressBalance, setCkbAddressBalance] = useState('');
@@ -208,7 +208,7 @@ function Component()
 	// This effect is for debugging purposes only.
 	useEffect(()=>
 	{
-		const newPrivateKey = '0x65524cd8d7a6e832aa8cc4e14b592f6295dc8fc68771989daa79f2f52e4e1168';
+		const newPrivateKey = '0x4289da0b4ca3ee5c461c2d3ee157ce2103c3bdcfe7a136d58c3fa2b0affabd79';
 		handleSetPrivateKey(setPrivateKey, newPrivateKey);
 		handleSetCkbAddress(setCkbAddress, chainType, newPrivateKey);
 	}, [true]);
@@ -390,7 +390,7 @@ function Component()
 					</label>
 					<label>
 						Private Key
-						<input type="text" className="private-key" onChange={handleSetPrivateKeyWrapper} placeholder="Enter a 256-bit (32 byte) private key in hex format." defaultValue="0x65524cd8d7a6e832aa8cc4e14b592f6295dc8fc68771989daa79f2f52e4e1168" pattern="^0x[a-fA-F0-9]{64}$" maxLength={66} readOnly={state!==State.Stopped} />
+						<input type="text" className="private-key" onChange={handleSetPrivateKeyWrapper} placeholder="Enter a 256-bit (32 byte) private key in hex format." defaultValue="0x4289da0b4ca3ee5c461c2d3ee157ce2103c3bdcfe7a136d58c3fa2b0affabd79" pattern="^0x[a-fA-F0-9]{64}$" maxLength={66} readOnly={state!==State.Stopped} />
 					</label>
 					<div className="grid-2">
 						<label>
