@@ -1,14 +1,14 @@
-# Nervos Airdrop
+# Nervos Airdrop Tool
 
-Nervos Airdrop is a web based tool for distributing Nervos CKBytes to a list of CKB addresses.
+Nervos Airdrop Tool is a web based tool to automate the process of distributing CKBytes to a list of CKB addresses.
 
-> This tool is intended for internal testing purposes only and should not be used in production environments.
+> This tool is designed only for internal use by the Nervos Foundation. Please do not share this tool externally.
 
-## Developing
+## Usage
 
-These instructions describe how to launch, run, and develop using the CKB.tools code base.
+These instructions describe how to launch, run, and develop using Nervos Airdrop Tool code base.
 
-If you don't need to develop and just want to use the tools, visit the [CKB.tools](https://ckb.tools/) website.
+<!-- If you don't need to develop and just want to use the tools, visit the [Nervos.win](https://nervos.win/) website. -->
 
 ### Prerequisites
 
@@ -17,18 +17,12 @@ If you don't need to develop and just want to use the tools, visit the [CKB.tool
 ### Install Dependencies
 
 ```sh
-npm i --force
+npm i
 ```
 
-You will also need to delete the following file due to a problem in the NPM package.
+### Edit the Configuration
 
-```sh
-rm -f node_modules/hookrouter/dist/index.d.ts
-```
-
-### Configure
-
-Edit the `src/config.js` file.
+The `src/config.js` file contains the default settings for the Nervos testnet and mainnet. The default settings should work for most people without modification.
 
 ### Start the Development Server
 
@@ -36,12 +30,12 @@ Edit the `src/config.js` file.
 npm start
 ```
 
-### Building
+### Build for Production
 
 ```sh
 npm run build
 ```
 
-### Deploying
+### Deploy to Production
 
-Build the project, then copy the complete contents of the `build` directory to the document root of the web server.
+Build the project, then copy the complete contents of the `build` directory to the document root of the web server, overwriting any existing files.
