@@ -1,5 +1,14 @@
 # Nervos Airdrop Tool
 
+![GitHub package.json version](https://img.shields.io/github/package-json/v/jordanmack/nervos-airdrop)
+![GitHub last commit](https://img.shields.io/github/last-commit/jordanmack/nervos-airdrop)
+![Travis (.org)](https://img.shields.io/travis/jordanmack/nervos-airdrop)
+![Requires.io](https://img.shields.io/requires/github/jordanmack/nervos-airdrop)
+![GitHub Repo stars](https://img.shields.io/github/stars/jordanmack/nervos-airdrop?style=social)
+
+<!-- ![Uptime Robot status](https://img.shields.io/uptimerobot/status/m788404415-839b32111e1dc755c52c3e33) -->
+<!-- ![Uptime Robot ratio (30 days)](https://img.shields.io/uptimerobot/ratio/m788404415-839b32111e1dc755c52c3e33) -->
+
 Nervos Airdrop Tool is a web based tool to automate the process of distributing CKBytes to a list of CKB addresses.
 
 > This tool is designed only for internal use by the Nervos Foundation. Please do not share this tool externally.
