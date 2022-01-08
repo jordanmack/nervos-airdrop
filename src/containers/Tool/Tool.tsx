@@ -149,8 +149,8 @@ async function validateAmounts(recipientCount: number, paymentAmount: number, pr
 	const collector = new BasicCollector(Config[ChainType[chainType] as ChainTypeString].ckbIndexerUrl);
 	const addressBalance = await collector.getBalance(address);
 
-	// Calculate the cost of the transaction. (count * amount + 1 for tx fees)
-	const neededAmount = new Amount(String(recipientCount * paymentAmount + 1), AmountUnit.ckb);
+	// Calculate the cost of the transaction. (count * amount + 61 (change cell) + 1 (tx fees)
+	const neededAmount = new Amount(String(recipientCount * paymentAmount + 61 + 1), AmountUnit.ckb);
 
 	// check if the private key address has enough CKB to cover all transactions.
 	if(neededAmount.gt(addressBalance))
