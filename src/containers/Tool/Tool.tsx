@@ -386,8 +386,10 @@ function Component()
 						if(currentChunk+1 >= transactionCount)
 						{
 							// Airdrop is a success. Stop processing.
+							const status = 'Airdrop completed successfully.';
+							setStatus(status);
+							toast.success(status);
 							setState(State.Stopped);
-							setStatus('Airdrop Completed.');
 						}
 						else
 						{
