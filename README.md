@@ -2,7 +2,7 @@
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/jordanmack/nervos-airdrop)
 ![GitHub last commit](https://img.shields.io/github/last-commit/jordanmack/nervos-airdrop)
-![Travis (.org)](https://img.shields.io/travis/jordanmack/nervos-airdrop)
+![Travis-CI](https://img.shields.io/travis/jordanmack/nervos-airdrop)
 ![Requires.io](https://img.shields.io/requires/github/jordanmack/nervos-airdrop)
 ![GitHub Repo stars](https://img.shields.io/github/stars/jordanmack/nervos-airdrop?style=social)
 
