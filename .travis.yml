@@ -3,8 +3,8 @@ node_js:
   - lts/*
 
 before_script:
-  - npm i --force
-  - rm -f node_modules/hookrouter/dist/index.d.ts
+  - npm i
+  # - rm -f node_modules/hookrouter/dist/index.d.ts
 
 script:
   - npm run build
