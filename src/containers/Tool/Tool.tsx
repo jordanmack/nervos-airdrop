@@ -48,6 +48,8 @@ function handleSetCkbAddress(setCkbAddress: React.Dispatch<any>, chainType: Chai
 
 async function handleUpdateCkbAddressBalance(setCkbAddressBalance: React.Dispatch<any>, ckbAddress: string, chainType: ChainType)
 {
+	await initPwCore(chainType);
+
 	if(ckbAddress.length > 0)
 	{
 		const address = new Address(ckbAddress, AddressType.ckb);
@@ -66,7 +68,6 @@ async function handleUpdateCkbAddressBalance(setCkbAddressBalance: React.Dispatc
 
 function handleSetPrivateKey(setPrivateKey: React.Dispatch<any>, privateKey: string)
 {
-
 	if(isPrivateKeyValid(privateKey))
 		setPrivateKey(privateKey);
 	else
@@ -127,28 +128,73 @@ async function initPwCore(chain: ChainType, rawProvider?: RawProvider)
 	return pwCore;
 }
 
-// TODO: Validate the private key.
-// TODO: Validate the amounts.
-// TODO: Validate for duplicates.
-async function validateRecipients(recipients: string[], recipientAddressType: AddressType, chainType: ChainType)
+/**
+ * Validates the amount to be sent to all recipients against the balance.
+ */
+async function validateAmounts(recipientCount: number, paymentAmount: number, privateKey: string, chainType: ChainType)
 {
+	// Initialize PWCore.
 	await initPwCore(chainType);
 
-	let invalidAddressFound = false;
+	// Validate the private key.
+	if(!isPrivateKeyValid(privateKey))
+		throw new Error('The private key specified is invalid.');
 
-	if(recipients.length === 0)
+	// Convert the private key to an Address.
+	const addressPrefix = (chainType === ChainType.mainnet) ? AddressPrefix.Mainnet : AddressPrefix.Testnet;
+	const addressString = privateKeyToAddress(privateKey, {prefix: addressPrefix});
+	const address = new Address(addressString, AddressType.ckb);
+
+	// Query for the balance Amount on the Address.
+	const collector = new BasicCollector(Config[ChainType[chainType] as ChainTypeString].ckbIndexerUrl);
+	const addressBalance = await collector.getBalance(address);
+
+	// Calculate the cost of the transaction. (count * amount + 1 for tx fees)
+	const neededAmount = new Amount(String(recipientCount * paymentAmount + 1), AmountUnit.ckb);
+
+	// check if the private key address has enough CKB to cover all transactions.
+	if(neededAmount.gt(addressBalance))
+		throw new Error(`Not enough CKBytes are available on the current address. (${(Number(neededAmount.toString())).toLocaleString()} CKBytes required.)`);
+}
+
+async function validatePrivateKey(privateKey: string)
+{
+	if(!isPrivateKeyValid(privateKey))
 	{
-		const error = 'No addresses were provided!';
-		console.error(error);
-		toast.error(error);
-		
-		return false;
+		throw new Error('The private key specified is invalid.');
+	}
+}
+
+async function validateRecipients(recipients: string[], recipientAddressType: AddressType, chainType: ChainType)
+{
+	// Check if there are no addresses.
+	if(recipients.length === 0)
+		throw new Error('No addresses were provided!');
+
+	// Check if there are any duplicate addresses.
+	let addressSet = new Set();
+	for(let i = 0; i < recipients.length; i++)
+	{
+		if(addressSet.has(recipients[i]))
+			throw new Error(`A duplicate address was provided at index ${i}: "${recipients[i]}"`);
+		else
+			addressSet.add(recipients[i]);
 	}
 
+	// Check each address to make sure it is valid.
+	await initPwCore(chainType);
 	for(const [i, recipientAddress] of recipients.entries())
 	{
 		let valid = true;
 
+		// Check to see if the current address matched the current chain type.
+		const addressPrefix = (chainType === ChainType.mainnet) ? AddressPrefix.Mainnet : AddressPrefix.Testnet;
+		if(!recipientAddress.startsWith(addressPrefix))
+		{
+			throw new Error(`A CKB address for the wrong chain type was provided at index ${i}: "${recipientAddress}"`);
+		}
+
+		// The function `address.valid()` is supposed to return a bool, but it throws an error sometimes so we have to wrap it.
 		try
 		{
 			const address = new Address(recipientAddress, AddressType.ckb);
@@ -162,16 +208,8 @@ async function validateRecipients(recipients: string[], recipientAddressType: Ad
 		}
 
 		if(!valid)
-		{
-			const error = `An invalid CKB address was provided at index ${i}: "${recipientAddress}"`;
-			console.error(error);
-			toast.error(error);
-			invalidAddressFound = true;
-			break;
-		}
+			throw new Error(`An invalid CKB address was provided at index ${i}: "${recipientAddress}"`);
 	}
-
-	return !invalidAddressFound;
 }
 
 function Component()
@@ -185,7 +223,7 @@ function Component()
 	const [ckbAddress, setCkbAddress] = useState('');
 	const [ckbAddressBalance, setCkbAddressBalance] = useState('');
 	const [loading] = useState(false);
-	const [privateKey, setPrivateKey] = useState<string|null>(null);
+	const [privateKey, setPrivateKey] = useState<string>('');
 	const [state, setState] = useState(State.Stopped);
 	const [status, setStatus] = useState('Stopped');
 	const [ticker, setTicker] = useState<NodeJS.Timer|null>(null);
@@ -233,18 +271,25 @@ function Component()
 			}
 			else if(state===State.Validate)
 			{
-				setStatus('Validating addresses.');
+				setStatus('Validating data.');
 	
-				validateRecipients(recipients, recipientAddressType, chainType)
-				.then((valid)=>
+				const promises =
+				[
+					validatePrivateKey(privateKey),
+					validateRecipients(recipients, recipientAddressType, chainType),
+					validateAmounts(recipients.length, recipientAmount, privateKey, chainType)
+				];
+				Promise.all(promises)
+				.then(()=>
 				{
-					if(!valid)
-					{
-						setState(State.Stopped);
-						setStatus('An error occurred during address validation.');
-					}
-					else
-						setState(State.BuildTx);
+					setState(State.BuildTx);
+				})
+				.catch((error)=>
+				{
+					setState(State.Stopped);
+					setStatus('An error occurred during address validation.');
+					console.error(error);
+					toast.error(String(error));
 				});
 			}
 			else if(state===State.BuildTx)
