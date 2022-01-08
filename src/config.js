@@ -26,6 +26,7 @@ const config =
 	tickMutex: new Mutex(),
 	tickPostDelay: 1000,
 	transactionFee: 10000
+	transactionTimeoutDelay: 5 * 60 * 1000, // Delay in milliseconds before a confirming transaction will time out.
 };
 
 export default config;

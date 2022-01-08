@@ -222,13 +222,14 @@ function Component()
 	const [chainType, setChainType] = useState(ChainType.testnet);
 	const [ckbAddress, setCkbAddress] = useState('');
 	const [ckbAddressBalance, setCkbAddressBalance] = useState('');
+	const [currentChunk, setCurrentChunk] = useState(0);
 	const [loading] = useState(false);
 	const [privateKey, setPrivateKey] = useState<string>('');
 	const [state, setState] = useState(State.Stopped);
 	const [status, setStatus] = useState('Stopped');
-	const [ticker, setTicker] = useState<NodeJS.Timer|null>(null);
+	const [ticker, setTicker] = useState<ReturnType<typeof setInterval>|null>(null);
 	const [tick, setTick] = useState(0);
-	const [currentChunk, setCurrentChunk] = useState(0);
+	const [timeoutTicker, setTimeoutTicker] = useState<ReturnType<typeof setTimeout>|null>(null);
 	const [transaction, setTransaction] = useState<Transaction|null>(null);
 	const [transactions, setTransactions] = useState<string[]>([]);
 	const [txId, setTxId]= useState<string|null>(null);
@@ -340,13 +341,29 @@ function Component()
 			}
 			else if(state===State.ConfirmTx)
 			{
+				// Update the status bar.
 				const transactionCount = Math.ceil(recipients.length / recipientsPerTx);
 				setStatus(`Confirming transaction ${currentChunk+1}/${transactionCount}.`);
-	
+
+				// Set the timeout ticker.
+				if(timeoutTicker === null)
+				{
+					const timeout = setTimeout(()=>
+					{
+						const error = 'The current transaction failed to confirm before the timeout was reached.';
+						console.error(error);
+						toast.error(error);
+						setState(State.Stopped);
+						setStatus(error);
+					}, Config.transactionTimeoutDelay);
+
+					setTimeoutTicker(timeout);
+				}
+
 				// Try and catch is used here to suppress errors because status updates are a non-essential background process.
 				try
 				{
-					// Retrieve the status from the RPC.
+					// Retrieve the recently confirmed transaction IDs from the Indexer RPC.
 					const rpc = new RPC(Config[ChainType[chainType] as 'mainnet'|'testnet'].ckbIndexerUrl);
 					const lockScript = new Address(ckbAddress, AddressType.ckb).toLockScript();
 					const params =
@@ -360,25 +377,32 @@ function Component()
 						"script_type": "lock"
 					};
 					const txData: any = await rpc.get_transactions(params, 'desc', '0x64');
-					// console.log(txData);
-					const hashes = txData['objects'].map((o: any)=>o.tx_hash); // TODO: Verify this is safe.
+					const txIds = txData?.objects?.map((o: any)=>o.tx_hash);
 
-					// Check if status is committed.
-					if(hashes.includes(txId))
+					// Check if the current TX ID is committed.
+					if(!!txIds && txIds.includes(txId))
 					{
+						// Check if all chunks have processed.
 						if(currentChunk+1 >= transactionCount)
 						{
+							// Airdrop is a success. Stop processing.
 							setState(State.Stopped);
 							setStatus('Airdrop Completed.');
 						}
 						else
 						{
+							// More chunks need to process. Continue with next chunk.
 							setCurrentChunk(currentChunk+1);
 							setState(State.BuildTx);
 						}
-					}
 
-					// TODO: There needs to be a process timeout and detection of failed TXs.
+						// Disable the current transaction timeout.
+						if(!!timeoutTicker)
+						{
+							clearTimeout(timeoutTicker);
+							setTimeoutTicker(null);
+						}
+					}
 				}
 				catch(e)
 				{
@@ -485,7 +509,7 @@ function Component()
 					<legend>Status</legend>
 					<label>
 						Status
-						<input type="text" className="status" disabled={true} value={status} />
+						<input type="text" className="status" readOnly={true} value={status} />
 					</label>
 					<label>
 						Paid Addresses {`(${recipientsPaid.length})`}
