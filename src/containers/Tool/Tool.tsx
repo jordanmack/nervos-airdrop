@@ -187,17 +187,20 @@ async function validateRecipients(recipients: string[], recipientAddressType: Ad
 	{
 		let valid = true;
 
-		// Check to see if the current address matched the current chain type.
-		const addressPrefix = (chainType === ChainType.mainnet) ? AddressPrefix.Mainnet : AddressPrefix.Testnet;
-		if(!recipientAddress.startsWith(addressPrefix))
+		// Check to see if the current address matched the current address type and chain type so we can give a better error message.
+		if(recipientAddressType === AddressType.ckb)
 		{
-			throw new Error(`A CKB address for the wrong chain type was provided at index ${i}: "${recipientAddress}"`);
+			const addressPrefix = (chainType === ChainType.mainnet) ? AddressPrefix.Mainnet : AddressPrefix.Testnet;
+			if(recipientAddress.startsWith('ck') && !recipientAddress.startsWith(addressPrefix))
+			{
+				throw new Error(`A CKB address for the wrong chain type was provided at index ${i}: "${recipientAddress}"`);
+			}
 		}
 
 		// The function `address.valid()` is supposed to return a bool, but it throws an error sometimes so we have to wrap it.
 		try
 		{
-			const address = new Address(recipientAddress, AddressType.ckb);
+			const address = new Address(recipientAddress, recipientAddressType);
 			if(!address.valid())
 				valid = false;
 		}
