@@ -64,3 +64,12 @@ span.spacer
 		text-align: center;
 	}
 }
+
+.Toastify__close-button
+{
+	&:active,
+	&:hover
+	{
+		background: transparent;
+	}
+}
