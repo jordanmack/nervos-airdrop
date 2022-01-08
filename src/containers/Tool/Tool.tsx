@@ -489,7 +489,6 @@ function Component()
 					</label>
 					<label>
 						Recipient Addresses - One Per Line {`(${recipients.length})`}
-						{/* <textarea className="recipient-addresses" onChange={handleSetRecipientsWrapper} readOnly={state!==State.Stopped}></textarea> */}
 						<textarea className="recipient-addresses" onChange={handleSetRecipientsWrapper} defaultValue={recipients.join('\r\n')} readOnly={state!==State.Stopped} />
 					</label>
 					<div className="grid-2">
