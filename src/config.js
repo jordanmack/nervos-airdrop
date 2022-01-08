@@ -17,15 +17,9 @@ const config =
 		ckbExplorerUrl: '//explorer.nervos.org/',
 	},
 
-	// sudtTransactionMonitorDelay: 2_000,				// Delay in milliseconds that the SUDT transaction monitor waits before checking if anything needs updating. 
-	// sudtTransactionMonitorFailureDelay: 300_000,	// Delay in milliseconds before a transaction that isn't confirming is marked as failed.
-	// sudtTransactionMonitorUpdateDelay: 10_000,		// Delay in milliseconds before a transaction is rechecked for a status change.
-
-	// defaultDebouceDelay: 200,
-	tickDelay: 200,
-	tickMutex: new Mutex(),
-	tickPostDelay: 1000,
-	transactionFee: 10000
+	tickDelay: 200, // Delay in milliseconds between state ticks.
+	tickMutex: new Mutex(), // A mutex to prevent two ticks from executing at the same time.
+	tickPostDelay: 1000, // Delay in milliseconds at the end of a tick before releasing the mutex.
 	transactionTimeoutDelay: 5 * 60 * 1000, // Delay in milliseconds before a confirming transaction will time out.
 };
 
