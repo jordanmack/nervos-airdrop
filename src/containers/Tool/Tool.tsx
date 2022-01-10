@@ -366,6 +366,7 @@ function Component()
 	const handleStopClickWrapper = (e: React.MouseEvent<HTMLButtonElement>) => { handleStopClick(setState, setTick); };
 	const handleClearRecipientsPaid = (e: React.MouseEvent<HTMLAnchorElement>) => { e.preventDefault(); setRecipientsPaid([]); };
 	const handleClearTransactions = (e: React.MouseEvent<HTMLAnchorElement>) => { e.preventDefault(); setTransactions([]); };
+	const handleRefreshSenderBalance = (e: React.MouseEvent<HTMLButtonElement>) => { e.preventDefault(); setCkbAddressBalance(''); handleUpdateCkbAddressBalance(setCkbAddressBalance, ckbAddress, chainType); };
 
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(()=>{handleSetCkbAddress(setCkbAddress, chainType, privateKey);}, [chainType, privateKey]); // Update the Sender CKB address.
@@ -586,8 +587,9 @@ function Component()
 							CKB Address
 							<input type="text" className="ckb-address" readOnly={true} value={ckbAddress} />
 						</label>
-						<label>
+						<label className="button-container">
 							CKB Address Balance
+							<button className="refresh-button flat" onClick={handleRefreshSenderBalance}><i className="fas fa-sync-alt"></i></button>							
 							<input type="text" className="ckb-address-balance" readOnly={true} value={ckbAddressBalance && `${Number(ckbAddressBalance).toLocaleString()} CKBytes`} />
 						</label>
 					</div>

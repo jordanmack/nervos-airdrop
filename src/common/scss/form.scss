@@ -27,6 +27,18 @@ button
 		color: $color-font-disabled;
 		cursor: default;
 	}
+
+	&.flat
+	{
+		background: transparent;
+		color: #000000;
+		padding: 2px;
+
+		&:active
+		{
+			background: #ffffff;
+		}
+	}
 }
 
 form

@@ -83,6 +83,17 @@ main.tool
 			font-weight: normal;
 		}
 	}
+	.button-container
+	{
+		position: relative;
+
+		.refresh-button
+		{
+			position: absolute;
+			right: 4px;
+			bottom: 4px;
+		}
+	}
 	.grid-2
 	{
 		display: grid;
