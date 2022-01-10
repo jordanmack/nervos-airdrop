@@ -256,8 +256,8 @@ async function validateAmounts(recipientCount: number, recipientAddressType: Add
 	// Check the sending amounts.
 	if(recipientAddressType === AddressType.ckb && paymentAmount < 61)
 		throw new Error(`The payment amount of ${paymentAmount} is less than the minimum of 61.`);
-	else if(recipientAddressType === AddressType.eth && paymentAmount < 234)
-		throw new Error(`The payment amount of ${paymentAmount} is less than the minimum of 234.`);
+	else if(recipientAddressType === AddressType.eth && paymentAmount < 400)
+		throw new Error(`The payment amount of ${paymentAmount} is less than the minimum of 400.`);
 
 	// Convert the private key to an Address.
 	const addressPrefix = (chainType === ChainType.mainnet) ? AddressPrefix.Mainnet : AddressPrefix.Testnet;
