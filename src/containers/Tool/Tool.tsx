@@ -330,7 +330,7 @@ async function validateRecipients(recipients: string[], recipientAddressType: Ad
 		}
 
 		if(!valid)
-			throw new Error(`An invalid CKB address was provided at index ${i}: "${recipientAddress}"`);
+			throw new Error(`An invalid address was provided at index ${i}: "${recipientAddress}"`);
 	}
 }
 
