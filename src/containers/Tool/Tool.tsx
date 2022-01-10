@@ -519,6 +519,9 @@ function Component()
 
 						// Disable the current transaction timeout.
 						updateTimeoutTicker(timeoutTicker, setTimeoutTicker, setState, setStatus, false);
+
+						// Refresh the sender balance.
+						handleUpdateCkbAddressBalance(setCkbAddressBalance, ckbAddress, chainType);
 					}
 				}
 				catch(e)
