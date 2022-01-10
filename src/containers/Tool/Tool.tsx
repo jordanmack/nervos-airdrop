@@ -379,7 +379,6 @@ function Component()
 			if(state===State.Active)
 			{
 				setCurrentChunk(0);
-				setRecipientsPaid([]);
 				setState(State.Validate);
 				setStatus('Active.');
 			}
@@ -630,12 +629,14 @@ function Component()
 					</label>
 					<label>
 						Addresses Paid {`(${recipientsPaid.length})`}
+						<span className="action-bar">[<a href="#ClearAddressesPaid" onClick={handleClearRecipientsPaid}>clear</a>]</span>
 						<div className="paid-addresses">
 							{generateRecipientsPaidHtml(recipientsPaid)}
 						</div>
 					</label>
 					<label>
 						Transactions {`(${transactions.length})`}
+						<span className="action-bar">[<a href="#ClearTransactions" onClick={handleClearTransactions}>clear</a>]</span>
 						<div className="transactions">
 							{generateTransactionsHtml(transactions)}
 						</div>
