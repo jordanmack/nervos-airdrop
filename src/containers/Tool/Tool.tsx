@@ -560,6 +560,7 @@ function Component()
 			<p>
 				The Nervos Airdrop Tool is designed to help send CKBytes to a large number of addresses easily.
 				This tool is intended only for internal use by the Nervos Foundation.
+				{" "}
 				<strong>Please do not share this tool externally.</strong>
 			</p>
 			<form>
