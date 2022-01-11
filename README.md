@@ -26,7 +26,7 @@ These instructions describe how to launch, run, and develop using Nervos Airdrop
 ### Install Dependencies
 
 ```sh
-npm i
+npm i --force
 ```
 
 ### Edit the Configuration
